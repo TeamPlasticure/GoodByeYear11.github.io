@@ -6,24 +6,12 @@
   <title>Goodbye, for now!</title>
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- Firebase App (the core Firebase SDK) -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+  <!-- Supabase JS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
   <script>
-    // Your Firebase config
-    const firebaseConfig = {
-      apiKey: "AIzaSyA7I65q-34LM7cP_ZVq7ZuBHSjb9NGqKCU",
-      authDomain: "year-11-signs.firebaseapp.com",
-      projectId: "year-11-signs",
-      storageBucket: "year-11-signs.appspot.com",
-      messagingSenderId: "564458718415",
-      appId: "1:564458718415:web:97864e4b95f939f06c63ba",
-      measurementId: "G-0PBWR6ZMKZ"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const storage = firebase.storage();
-    const db = firebase.firestore();
+    const supabaseUrl = 'https://rawgjshiobdovsgxkzif.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJhd2dqc2hpb2Jkb3ZzZ3hremlmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU3NjkyMDIsImV4cCI6MjA2MTM0NTIwMn0.TKZ1iNSrGh8SyqYgu_6TX6rlrOX01S-Jl332aZyx6BY';
+    window.supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
   </script>
 </head>
 <body>
@@ -89,7 +77,6 @@
     </div>
   </footer>
 
-  <!-- Your main JS file -->
   <script src="script.js"></script>
 </body>
 </html>
