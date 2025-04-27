@@ -44,17 +44,17 @@ main {
 .carousel-row {
   display: flex;
   justify-content: center;
-  align-items: stretch;
+  align-items: flex-start;
   gap: 2.5rem;
   min-height: 340px;
   width: 100%;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem;
   position: relative;
-  transition: min-height 0.5s;
 }
 
 .carousel-card {
   width: 330px;
+  min-height: 340px;
   background: var(--white);
   border-radius: 20px;
   box-shadow: 0 8px 36px rgba(0,0,0,0.13);
@@ -65,10 +65,10 @@ main {
   overflow: hidden;
   position: relative;
   transition:
-    transform 0.6s cubic-bezier(.7,1.6,.2,1),
-    opacity 0.5s cubic-bezier(.7,1.6,.2,1),
-    box-shadow 0.5s cubic-bezier(.7,1.6,.2,1);
-  min-height: 340px;
+    transform 0.55s cubic-bezier(.7,1.6,.2,1),
+    opacity 0.4s cubic-bezier(.7,1.6,.2,1),
+    box-shadow 0.4s cubic-bezier(.7,1.6,.2,1),
+    min-height 0.4s cubic-bezier(.7,1.6,.2,1);
 }
 
 .carousel-card img {
@@ -88,15 +88,14 @@ main {
   width: 100%;
   box-sizing: border-box;
   text-align: center;
-  flex: 1;
+  font-size: 1.06rem;
+  min-height: 40px;
+  transition: min-height 0.4s cubic-bezier(.7,1.6,.2,1);
+  overflow: visible;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  font-size: 1.06rem;
-  min-height: 40px;
-  transition: min-height 0.5s cubic-bezier(.7,.2,.2,1);
-  overflow: visible;
 }
 
 .carousel-card h2 {
@@ -115,20 +114,31 @@ main {
   box-shadow: 0 2px 12px rgba(0,0,0,0.07);
   z-index: 1;
   filter: blur(0.5px);
+  min-height: 340px;
+  height: 340px;
 }
+.carousel-card.back .carousel-message {
+  display: none !important;
+}
+
 .carousel-card.front {
   opacity: 1;
   transform: scale(1);
   z-index: 2;
   box-shadow: 0 8px 36px rgba(0,0,0,0.13);
   filter: none;
+  min-height: 340px;
+  height: auto;
+}
+.carousel-card.front .carousel-message {
+  display: flex;
 }
 
 .carousel-card.bounce-in-left {
-  animation: bounceInLeft 0.65s cubic-bezier(.34,1.56,.64,1) both;
+  animation: bounceInLeft 0.55s cubic-bezier(.34,1.56,.64,1) both;
 }
 .carousel-card.bounce-in-right {
-  animation: bounceInRight 0.65s cubic-bezier(.34,1.56,.64,1) both;
+  animation: bounceInRight 0.55s cubic-bezier(.34,1.56,.64,1) both;
 }
 @keyframes bounceInLeft {
   0%   { transform: translateX(-120px) scale(0.85); opacity: 0.1; }
@@ -144,10 +154,10 @@ main {
 }
 
 .carousel-card.fade-out-left {
-  animation: fadeOutLeft 0.5s cubic-bezier(.7,1.6,.2,1) both;
+  animation: fadeOutLeft 0.4s cubic-bezier(.7,1.6,.2,1) both;
 }
 .carousel-card.fade-out-right {
-  animation: fadeOutRight 0.5s cubic-bezier(.7,1.6,.2,1) both;
+  animation: fadeOutRight 0.4s cubic-bezier(.7,1.6,.2,1) both;
 }
 @keyframes fadeOutLeft {
   0%   { opacity: 1; transform: scale(1);}
@@ -158,19 +168,12 @@ main {
   100% { opacity: 0.4; transform: translateX(60px) scale(0.92);}
 }
 
-.carousel-card .carousel-message {
-  display: none;
-}
-.carousel-card.front .carousel-message {
-  display: flex;
-}
-
 .carousel-controls-area {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 18px;
+  margin-top: 0px;
 }
 
 .carousel-controls {
