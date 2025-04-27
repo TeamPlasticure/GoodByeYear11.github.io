@@ -14,7 +14,7 @@ const carouselData = [
   }
 ];
 
-// Carousel logic
+// Carousel logic with smooth fade/slide animation
 document.addEventListener("DOMContentLoaded", function() {
   // Fade-in on scroll
   const faders = document.querySelectorAll('.fade-in');
@@ -40,22 +40,35 @@ document.addEventListener("DOMContentLoaded", function() {
   const indicators = document.querySelector('.carousel-indicators');
 
   let current = 0;
+  let animating = false;
 
-  function renderSlides() {
-    carouselSlide.innerHTML = '';
-    carouselData.forEach((item, idx) => {
-      const div = document.createElement('div');
-      div.className = 'carousel-item' + (idx === current ? ' active' : '');
-      div.innerHTML = `
-        <img src="${item.img}" alt="${item.alt}" class="carousel-image">
-        <div class="carousel-message">
-          <h2>${item.title}</h2>
-          <p>${item.message}</p>
-        </div>
-      `;
-      carouselSlide.appendChild(div);
-    });
+  function renderSlides(direction = 0) {
+    // Remove old slides with animation
+    const oldSlide = carouselSlide.querySelector('.carousel-item.active');
+    if (oldSlide) {
+      oldSlide.classList.remove('active');
+      if (direction === -1) oldSlide.classList.add('exit-left');
+      else if (direction === 1) oldSlide.classList.add('exit-right');
+      setTimeout(() => {
+        if (oldSlide.parentNode) oldSlide.parentNode.removeChild(oldSlide);
+      }, 500);
+    }
+
+    // Add new slide
+    const item = carouselData[current];
+    const div = document.createElement('div');
+    div.className = 'carousel-item active';
+    div.innerHTML = `
+      <img src="${item.img}" alt="${item.alt}" class="carousel-image">
+      <div class="carousel-message">
+        <h2>${item.title}</h2>
+        <p>${item.message}</p>
+      </div>
+    `;
+    carouselSlide.appendChild(div);
+
     renderIndicators();
+    animating = false;
   }
 
   function renderIndicators() {
@@ -64,22 +77,30 @@ document.addEventListener("DOMContentLoaded", function() {
       const dot = document.createElement('span');
       dot.className = 'carousel-dot' + (idx === current ? ' active' : '');
       dot.addEventListener('click', () => {
+        if (animating || idx === current) return;
+        animating = true;
+        let direction = idx > current ? 1 : -1;
         current = idx;
-        renderSlides();
+        renderSlides(direction);
       });
       indicators.appendChild(dot);
     });
   }
 
   leftArrow.addEventListener('click', () => {
+    if (animating) return;
+    animating = true;
     current = (current - 1 + carouselData.length) % carouselData.length;
-    renderSlides();
+    renderSlides(-1);
   });
 
   rightArrow.addEventListener('click', () => {
+    if (animating) return;
+    animating = true;
     current = (current + 1) % carouselData.length;
-    renderSlides();
+    renderSlides(1);
   });
 
+  // Initial render
   renderSlides();
 });
