@@ -76,48 +76,76 @@ document.getElementById('submit-btn').onclick = async () => {
   }
   status.style.color = "#0033a0";
   status.textContent = "Uploading...";
+
   canvas.toBlob(async (blob) => {
     const filename = 'signature_' + Date.now() + '.png';
-    const ref = storage.ref().child('signatures/' + filename);
-    try {
-      await ref.put(blob);
-      const url = await ref.getDownloadURL();
-      await db.collection('signatures').add({
-        url: url,
-        name: name,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      });
-      status.style.color = "#008800";
-      status.textContent = "Signature submitted! 🎉";
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      nameInput.value = "";
-      loadGallery();
-    } catch (err) {
+    // Upload image to Supabase Storage
+    const { data: uploadData, error: uploadError } = await window.supabase
+      .storage
+      .from('signatures')
+      .upload(filename, blob, { contentType: 'image/png' });
+
+    if (uploadError) {
       status.style.color = "#b2151d";
       status.textContent = "Upload failed. Try again.";
+      return;
     }
+
+    // Get public URL for the uploaded image
+    const { data: publicUrlData } = window.supabase
+      .storage
+      .from('signatures')
+      .getPublicUrl(filename);
+
+    // Insert record into 'signatures' table with name and image URL
+    const { error: insertError } = await window.supabase
+      .from('signatures')
+      .insert([{ name, url: publicUrlData.publicUrl, created_at: new Date() }]);
+
+    if (insertError) {
+      status.style.color = "#b2151d";
+      status.textContent = "Failed to save to database.";
+      return;
+    }
+
+    status.style.color = "#008800";
+    status.textContent = "Signature submitted! 🎉";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    nameInput.value = "";
+    loadSignatures();
   }, 'image/png');
 };
 
 // --- Gallery Logic ---
-async function loadGallery() {
+async function loadSignatures() {
   const gallery = document.getElementById('signature-gallery');
   gallery.innerHTML = "Loading signatures...";
-  const snap = await db.collection('signatures').orderBy('timestamp', 'desc').limit(100).get();
+  const { data, error } = await window.supabase
+    .from('signatures')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    gallery.innerHTML = "Failed to load signatures.";
+    return;
+  }
+
   gallery.innerHTML = "";
-  snap.forEach(doc => {
-    const data = doc.data();
+  data.forEach(({ name, url }) => {
     const entry = document.createElement('div');
-    entry.className = "signature-entry";
-    const name = document.createElement('div');
-    name.className = "signature-name";
-    name.textContent = data.name || "Anonymous";
+    entry.className = 'signature-entry';
+
+    const nameDiv = document.createElement('div');
+    nameDiv.className = 'signature-name';
+    nameDiv.textContent = name;
+
     const img = document.createElement('img');
-    img.src = data.url;
-    img.alt = "Signature";
-    entry.appendChild(name);
+    img.src = url;
+    img.alt = `Signature of ${name}`;
+
+    entry.appendChild(nameDiv);
     entry.appendChild(img);
     gallery.appendChild(entry);
   });
 }
-loadGallery();
+loadSignatures();
