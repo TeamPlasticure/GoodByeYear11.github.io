@@ -41,11 +41,10 @@ main {
 }
 
 .carousel-stack {
-  width: 420px;
-  height: 380px;
+  width: 540px;
+  height: 340px;
   position: relative;
   margin-bottom: 1.5rem;
-  perspective: 1200px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -53,26 +52,46 @@ main {
 
 .carousel-card {
   position: absolute;
-  left: 50%;
   top: 50%;
   width: 340px;
   height: 340px;
   background: var(--white);
   border-radius: 20px;
   box-shadow: 0 8px 36px rgba(0,0,0,0.13);
-  transform: translate(-50%, -50%) scale(1) rotateY(0deg);
-  opacity: 1;
-  z-index: 2;
-  transition:
-    transform 0.7s cubic-bezier(.7,.2,.2,1),
-    opacity 0.7s cubic-bezier(.7,.2,.2,1),
-    box-shadow 0.7s cubic-bezier(.7,.2,.2,1);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   overflow: hidden;
+  transition:
+    left 0.7s cubic-bezier(.7,.2,.2,1),
+    transform 0.7s cubic-bezier(.7,.2,.2,1),
+    opacity 0.7s cubic-bezier(.7,.2,.2,1),
+    box-shadow 0.7s cubic-bezier(.7,.2,.2,1);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.5;
+}
+
+.carousel-card.left {
+  left: 0%;
+  transform: translateY(-50%) scale(0.85) rotateY(-15deg);
+  opacity: 0.5;
+  z-index: 1;
+}
+.carousel-card.right {
+  left: 200px;
+  transform: translateY(-50%) scale(1) rotateY(0deg);
+  opacity: 1;
+  z-index: 2;
   pointer-events: auto;
+}
+.carousel-card.animating {
+  transition:
+    left 0.7s cubic-bezier(.7,.2,.2,1),
+    transform 0.7s cubic-bezier(.7,.2,.2,1),
+    opacity 0.7s cubic-bezier(.7,.2,.2,1),
+    box-shadow 0.7s cubic-bezier(.7,.2,.2,1);
 }
 
 .carousel-card img {
@@ -96,66 +115,16 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-.carousel-message h2 {
-  margin: 0.4em 0 0.5em 0;
-  color: var(--red);
-  font-size: 1.2rem;
-}
-
-.carousel-message p {
-  margin: 0;
   font-size: 1.06rem;
 }
 
-/* Card stack positions */
-.carousel-card.front {
-  z-index: 2;
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1) rotateY(0deg);
-  box-shadow: 0 8px 36px rgba(0,0,0,0.13);
-  pointer-events: auto;
-}
-.carousel-card.back {
-  z-index: 1;
-  opacity: 0.4;
-  transform: translate(-50%, -50%) scale(0.82) rotateY(-30deg) translateY(30px);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
-  pointer-events: none;
-}
-.carousel-card .carousel-message {
+.carousel-card.left .carousel-message {
   display: none;
 }
-.carousel-card.front .carousel-message {
+.carousel-card.right .carousel-message {
   display: flex;
 }
 
-/* Animating classes */
-.carousel-card.animate-to-back {
-  z-index: 1;
-  opacity: 0.4;
-  transform: translate(-50%, -50%) scale(0.82) rotateY(-30deg) translateY(30px);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
-  pointer-events: none;
-  transition:
-    transform 0.7s cubic-bezier(.7,.2,.2,1),
-    opacity 0.7s cubic-bezier(.7,.2,.2,1),
-    box-shadow 0.7s cubic-bezier(.7,.2,.2,1);
-}
-.carousel-card.animate-to-front {
-  z-index: 2;
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1) rotateY(0deg);
-  box-shadow: 0 8px 36px rgba(0,0,0,0.13);
-  pointer-events: auto;
-  transition:
-    transform 0.7s cubic-bezier(.7,.2,.2,1),
-    opacity 0.7s cubic-bezier(.7,.2,.2,1),
-    box-shadow 0.7s cubic-bezier(.7,.2,.2,1);
-}
-
-/* Controls and indicators */
 .carousel-controls {
   display: flex;
   justify-content: center;
