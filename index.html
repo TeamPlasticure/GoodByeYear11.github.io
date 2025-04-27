@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Goodbye, for now!</title>
   <link rel="stylesheet" href="styles.css">
-  <!-- GSAP for smooth animations -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
 <body>
   <header>
@@ -14,27 +12,20 @@
   </header>
 
   <main>
-    <section class="heads-section fade-in">
-      <div class="head-card">
-        <img src="images/image1.jpg" alt="Head of Year" class="head-image">
-        <div class="head-message">
-          <h2>Head of Year 11 Message</h2>
-          <p>[Insert heartfelt message here]</p>
+    <section class="carousel-section fade-in">
+      <div class="carousel-container">
+        <button class="carousel-arrow left" aria-label="Previous">&#8592;</button>
+        <div class="carousel-slide">
+          <!-- Slides will be injected here by JS -->
         </div>
+        <button class="carousel-arrow right" aria-label="Next">&#8594;</button>
       </div>
-      <div class="head-card">
-        <img src="images/image2.jpg" alt="Deputy Head of Year" class="head-image">
-        <div class="head-message">
-          <h2>Head of Secondary message</h2>
-          <p>[Insert inspirational message here]</p>
-        </div>
-      </div>
+      <div class="carousel-indicators"></div>
     </section>
 
     <section class="form-section fade-in">
       <h2>Vote for Your Year 11 Superlatives!</h2>
       <div class="form-embed-container">
-        <!-- Responsive Google Form embed -->
         <iframe 
           src="https://docs.google.com/forms/d/e/1FAIpQLSdZr8MhK3S_HK7NhEo8wYSjxMikraaC3J2jFBUQbjFKlWue4Q/viewform?embedded=true" 
           frameborder="0" 
