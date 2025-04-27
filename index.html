@@ -40,15 +40,24 @@
       </div>
     </section>
 
-    <!-- Signature Submission Section -->
-    <section class="signature-section">
-      <h2>Sign the Yearbook!</h2>
-      <input id="sig-name" type="text" maxlength="30" placeholder="Your name (required)" autocomplete="off" />
-      <br />
-      <canvas id="sig-canvas" width="400" height="120"></canvas><br />
-      <button id="clear-btn">Clear</button>
-      <button id="submit-btn">Submit Signature</button>
-      <div id="sig-status"></div>
+    <!-- Signature and Countdown Container -->
+    <section class="signature-countdown-container">
+      <!-- Signature Submission Section -->
+      <div class="signature-section">
+        <h2>Sign the Yearbook!</h2>
+        <input id="sig-name" type="text" maxlength="30" placeholder="Your name (required)" autocomplete="off" />
+        <br />
+        <canvas id="sig-canvas" width="400" height="120"></canvas><br />
+        <button id="clear-btn">Clear</button>
+        <button id="submit-btn">Submit Signature</button>
+        <div id="sig-status"></div>
+      </div>
+
+      <!-- Countdown Timer Section -->
+      <div class="countdown-section">
+        <h2>Countdown to Graduation!</h2>
+        <div id="countdown-timer"></div>
+      </div>
     </section>
 
     <section class="form-section">
@@ -64,12 +73,6 @@
           title="Year 11 Superlatives Google Form"
         ></iframe>
       </div>
-    </section>
-
-    <!-- Countdown Timer Section -->
-    <section class="countdown-section">
-      <h2>Countdown to Graduation!</h2>
-      <div id="countdown-timer"></div>
     </section>
   </main>
 
