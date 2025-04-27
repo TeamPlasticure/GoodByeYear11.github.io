@@ -93,7 +93,6 @@ document.getElementById('submit-btn').onclick = async () => {
 
     // Manually construct the public URL
     const publicUrl = `https://rawgjshiobdovsgxkzif.supabase.co/storage/v1/object/public/signatures/${filename}`;
-    console.log("Public URL:", publicUrl);
 
     // Insert record into 'signatures' table with name and image URL
     const { error: insertError } = await window.supabase
@@ -110,41 +109,5 @@ document.getElementById('submit-btn').onclick = async () => {
     status.textContent = "Signature submitted! 🎉";
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     nameInput.value = "";
-    loadSignatures();
   }, 'image/png');
 };
-
-// --- Gallery Logic ---
-async function loadSignatures() {
-  const gallery = document.getElementById('signature-gallery');
-  gallery.innerHTML = "Loading signatures...";
-  const { data, error } = await window.supabase
-    .from('signatures')
-    .select('*')
-    .order('created_at', { ascending: false });
-
-  if (error) {
-    gallery.innerHTML = "Failed to load signatures.";
-    return;
-  }
-
-  gallery.innerHTML = "";
-  data.forEach(({ name, url }) => {
-    if (!url) return; // Skip entries with no signature image
-    const entry = document.createElement('div');
-    entry.className = 'signature-entry';
-
-    const nameDiv = document.createElement('div');
-    nameDiv.className = 'signature-name';
-    nameDiv.textContent = name;
-
-    const img = document.createElement('img');
-    img.src = url;
-    img.alt = `Signature of ${name}`;
-
-    entry.appendChild(nameDiv);
-    entry.appendChild(img);
-    gallery.appendChild(entry);
-  });
-}
-loadSignatures();
