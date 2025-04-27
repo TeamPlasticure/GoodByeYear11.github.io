@@ -14,7 +14,7 @@ const carouselData = [
   }
 ];
 
-// Carousel logic with smooth fade/slide animation
+// Card stack carousel logic
 document.addEventListener("DOMContentLoaded", function() {
   // Fade-in on scroll
   const faders = document.querySelectorAll('.fade-in');
@@ -33,8 +33,8 @@ document.addEventListener("DOMContentLoaded", function() {
     appearOnScroll.observe(fader);
   });
 
-  // Carousel setup
-  const carouselSlide = document.querySelector('.carousel-slide');
+  // Card stack carousel
+  const stack = document.querySelector('.carousel-stack');
   const leftArrow = document.querySelector('.carousel-arrow.left');
   const rightArrow = document.querySelector('.carousel-arrow.right');
   const indicators = document.querySelector('.carousel-indicators');
@@ -42,33 +42,51 @@ document.addEventListener("DOMContentLoaded", function() {
   let current = 0;
   let animating = false;
 
-  function renderSlides(direction = 0) {
-    // Remove old slides with animation
-    const oldSlide = carouselSlide.querySelector('.carousel-item.active');
-    if (oldSlide) {
-      oldSlide.classList.remove('active');
-      if (direction === -1) oldSlide.classList.add('exit-left');
-      else if (direction === 1) oldSlide.classList.add('exit-right');
-      setTimeout(() => {
-        if (oldSlide.parentNode) oldSlide.parentNode.removeChild(oldSlide);
-      }, 500);
-    }
+  function renderStack(direction = 0) {
+    stack.innerHTML = '';
 
-    // Add new slide
-    const item = carouselData[current];
-    const div = document.createElement('div');
-    div.className = 'carousel-item active';
-    div.innerHTML = `
-      <img src="${item.img}" alt="${item.alt}" class="carousel-image">
+    // Front card
+    const front = document.createElement('div');
+    front.className = 'carousel-card front';
+    front.innerHTML = `
+      <img src="${carouselData[current].img}" alt="${carouselData[current].alt}">
       <div class="carousel-message">
-        <h2>${item.title}</h2>
-        <p>${item.message}</p>
+        <h2>${carouselData[current].title}</h2>
+        <p>${carouselData[current].message}</p>
       </div>
     `;
-    carouselSlide.appendChild(div);
+    stack.appendChild(front);
 
-    renderIndicators();
+    // Back card (the other one)
+    const backIdx = (current + 1) % carouselData.length;
+    const back = document.createElement('div');
+    back.className = 'carousel-card back';
+    back.innerHTML = `
+      <img src="${carouselData[backIdx].img}" alt="${carouselData[backIdx].alt}">
+      <div class="carousel-message">
+        <h2>${carouselData[backIdx].title}</h2>
+        <p>${carouselData[backIdx].message}</p>
+      </div>
+    `;
+    stack.appendChild(back);
+
+    // Animation: if direction, animate cards
+    if (direction !== 0) {
+      // Animate out
+      const movingOut = direction === 1 ? front : back;
+      movingOut.style.transition = 'none';
+      movingOut.style.transform = direction === 1
+        ? 'translate(-50%, -50%) scale(1) rotateY(0deg)'
+        : 'translate(-50%, -50%) scale(0.82) rotateY(-30deg)';
+      setTimeout(() => {
+        movingOut.style.transition = '';
+        movingOut.style.transform = direction === 1
+          ? 'translate(-50%, -50%) scale(0.82) rotateY(-30deg)'
+          : 'translate(-50%, -50%) scale(1) rotateY(0deg)';
+      }, 30);
+    }
     animating = false;
+    renderIndicators();
   }
 
   function renderIndicators() {
@@ -79,9 +97,8 @@ document.addEventListener("DOMContentLoaded", function() {
       dot.addEventListener('click', () => {
         if (animating || idx === current) return;
         animating = true;
-        let direction = idx > current ? 1 : -1;
         current = idx;
-        renderSlides(direction);
+        renderStack(1);
       });
       indicators.appendChild(dot);
     });
@@ -91,16 +108,16 @@ document.addEventListener("DOMContentLoaded", function() {
     if (animating) return;
     animating = true;
     current = (current - 1 + carouselData.length) % carouselData.length;
-    renderSlides(-1);
+    renderStack(-1);
   });
 
   rightArrow.addEventListener('click', () => {
     if (animating) return;
     animating = true;
     current = (current + 1) % carouselData.length;
-    renderSlides(1);
+    renderStack(1);
   });
 
   // Initial render
-  renderSlides();
+  renderStack();
 });
