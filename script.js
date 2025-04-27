@@ -97,10 +97,12 @@ document.getElementById('submit-btn').onclick = async () => {
       .from('signatures')
       .getPublicUrl(filename);
 
+    const publicUrl = publicUrlData.publicUrl;
+
     // Insert record into 'signatures' table with name and image URL
     const { error: insertError } = await window.supabase
       .from('signatures')
-      .insert([{ name, url: publicUrlData.publicUrl, created_at: new Date() }]);
+      .insert([{ name, url: publicUrl, created_at: new Date() }]);
 
     if (insertError) {
       status.style.color = "#b2151d";
@@ -132,6 +134,7 @@ async function loadSignatures() {
 
   gallery.innerHTML = "";
   data.forEach(({ name, url }) => {
+    if (!url) return; // Skip entries with no signature image
     const entry = document.createElement('div');
     entry.className = 'signature-entry';
 
