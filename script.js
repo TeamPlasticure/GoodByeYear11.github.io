@@ -4,25 +4,29 @@ const carouselData = [
     img: "images/image1.jpg",
     alt: "Head of Year",
     title: "Head of Year 11 Message",
-    message: "This is the heartfelt message for Head of Year 11. You can make this as long as you want!"
+    message: "This is the heartfelt message for Head of Year 11. You can make this as long as you want! The card will grow as the message is typed out."
   },
   {
     img: "images/image2.jpg",
     alt: "Head of Secondary",
     title: "Head of Secondary message",
-    message: "This is the inspirational message for Head of Secondary. It will be typed out when the card comes forward."
+    message: "This is the inspirational message for Head of Secondary. It will be typed out when the card comes forward, and the card will expand to fit the message."
   }
 ];
 
 // Typing animation helper
-function typeText(element, text, speed = 18) {
+function typeText(element, text, speed = 14, done) {
   element.textContent = "";
   let i = 0;
   function type() {
     if (i <= text.length) {
       element.textContent = text.slice(0, i);
+      // Grow the message container as text appears
+      element.parentElement.style.minHeight = (element.scrollHeight + 30) + "px";
       i++;
       setTimeout(type, speed);
+    } else if (done) {
+      done();
     }
   }
   type();
@@ -88,8 +92,19 @@ document.addEventListener("DOMContentLoaded", function() {
     // Typing animation for the right card's message
     setTimeout(() => {
       const msg = right.querySelector('.carousel-message p');
-      typeText(msg, carouselData[rightIdx].message, 12);
+      typeText(msg, carouselData[rightIdx].message, 13, () => {
+        // After typing, ensure the card height fits the message
+        right.style.minHeight = (right.scrollHeight + 10) + "px";
+      });
     }, 350);
+
+    // Animate cards
+    left.classList.add('animating');
+    right.classList.add('animating');
+    setTimeout(() => {
+      left.classList.remove('animating');
+      right.classList.remove('animating');
+    }, 700);
 
     renderIndicators();
     animating = false;
