@@ -245,4 +245,9 @@ footer .credits p {
     height: 120px;
   }
   iframe {
-    heig
+    height: 2600px;
+  }
+  h1 {
+    font-size: 1.2rem;
+  }
+}
