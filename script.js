@@ -91,13 +91,9 @@ document.getElementById('submit-btn').onclick = async () => {
       return;
     }
 
-    // Get public URL for the uploaded image
-    const { data: publicUrlData } = window.supabase
-      .storage
-      .from('signatures')
-      .getPublicUrl(filename);
-
-    const publicUrl = publicUrlData.publicUrl;
+    // Manually construct the public URL
+    const publicUrl = `https://rawgjshiobdovsgxkzif.supabase.co/storage/v1/object/public/signatures/${filename}`;
+    console.log("Public URL:", publicUrl);
 
     // Insert record into 'signatures' table with name and image URL
     const { error: insertError } = await window.supabase
