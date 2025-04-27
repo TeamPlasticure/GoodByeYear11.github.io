@@ -88,11 +88,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Animate if needed
     if (direction === 1) {
-      left.classList.add('fade-out');
-      right.classList.add('bounce-in');
+      left.classList.add('fade-out-left');
+      right.classList.add('bounce-in-right');
     } else if (direction === -1) {
-      right.classList.add('fade-out');
-      left.classList.add('bounce-in');
+      right.classList.add('fade-out-right');
+      left.classList.add('bounce-in-left');
     }
 
     row.appendChild(left);
