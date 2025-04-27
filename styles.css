@@ -42,19 +42,19 @@ main {
 
 .carousel-stack {
   width: 540px;
-  height: 340px;
+  min-height: 340px;
   position: relative;
   margin-bottom: 1.5rem;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  height: auto;
 }
 
 .carousel-card {
   position: absolute;
-  top: 50%;
+  top: 0;
   width: 340px;
-  height: 340px;
   background: var(--white);
   border-radius: 20px;
   box-shadow: 0 8px 36px rgba(0,0,0,0.13);
@@ -62,36 +62,44 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  overflow: hidden;
+  overflow: visible;
   transition:
     left 0.7s cubic-bezier(.7,.2,.2,1),
     transform 0.7s cubic-bezier(.7,.2,.2,1),
     opacity 0.7s cubic-bezier(.7,.2,.2,1),
-    box-shadow 0.7s cubic-bezier(.7,.2,.2,1);
+    box-shadow 0.7s cubic-bezier(.7,.2,.2,1),
+    z-index 0.7s cubic-bezier(.7,.2,.2,1),
+    min-height 0.5s cubic-bezier(.7,.2,.2,1),
+    height 0.5s cubic-bezier(.7,.2,.2,1);
   pointer-events: none;
   z-index: 1;
   opacity: 0.5;
+  min-height: 260px;
 }
 
 .carousel-card.left {
   left: 0%;
-  transform: translateY(-50%) scale(0.85) rotateY(-15deg);
+  transform: translateY(0%) scale(0.85) rotateY(-15deg);
   opacity: 0.5;
   z-index: 1;
 }
 .carousel-card.right {
   left: 200px;
-  transform: translateY(-50%) scale(1) rotateY(0deg);
+  transform: translateY(0%) scale(1) rotateY(0deg);
   opacity: 1;
   z-index: 2;
   pointer-events: auto;
 }
+
 .carousel-card.animating {
   transition:
     left 0.7s cubic-bezier(.7,.2,.2,1),
     transform 0.7s cubic-bezier(.7,.2,.2,1),
     opacity 0.7s cubic-bezier(.7,.2,.2,1),
-    box-shadow 0.7s cubic-bezier(.7,.2,.2,1);
+    box-shadow 0.7s cubic-bezier(.7,.2,.2,1),
+    z-index 0.7s cubic-bezier(.7,.2,.2,1),
+    min-height 0.5s cubic-bezier(.7,.2,.2,1),
+    height 0.5s cubic-bezier(.7,.2,.2,1);
 }
 
 .carousel-card img {
@@ -114,8 +122,11 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   font-size: 1.06rem;
+  min-height: 40px;
+  transition: min-height 0.5s cubic-bezier(.7,.2,.2,1);
+  overflow: visible;
 }
 
 .carousel-card.left .carousel-message {
@@ -249,13 +260,13 @@ footer .credits p {
     width: 98vw;
     min-width: 0;
     max-width: 98vw;
-    height: 320px;
+    min-height: 210px;
   }
   .carousel-card {
     width: 95vw;
     min-width: 0;
     max-width: 95vw;
-    height: 300px;
+    min-height: 180px;
   }
   .form-section {
     padding: 1.2rem 0.3rem;
@@ -273,10 +284,10 @@ footer .credits p {
 
 @media (max-width: 500px) {
   .carousel-stack {
-    height: 210px;
+    min-height: 120px;
   }
   .carousel-card {
-    height: 180px;
+    min-height: 100px;
   }
   .carousel-card img {
     height: 80px;
