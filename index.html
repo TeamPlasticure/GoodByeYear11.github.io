@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Goodbye, for now!</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header>
@@ -12,30 +12,38 @@
   </header>
 
   <main>
-    <section class="carousel-section fade-in">
-      <div class="carousel-row">
-        <!-- Cards injected by JS -->
+    <section class="messages-section">
+      <div class="message-card">
+        <img src="images/image1.jpg" alt="Head of Year" />
+        <h2>Head of Year 11 Message</h2>
+        <p>
+          This is the heartfelt message for Head of Year 11. You can make this
+          as long as you want! The card will show the full message without any
+          animation.
+        </p>
       </div>
-      <div class="carousel-controls-area">
-        <div class="carousel-controls">
-          <button class="carousel-arrow left" aria-label="Previous">&#8592;</button>
-          <button class="carousel-arrow right" aria-label="Next">&#8594;</button>
-        </div>
-        <div class="carousel-indicators"></div>
+      <div class="message-card">
+        <img src="images/image2.jpg" alt="Head of Secondary" />
+        <h2>Head of Secondary Message</h2>
+        <p>
+          This is the inspirational message for Head of Secondary. It is shown
+          side-by-side with the Head of Year message for easy reading.
+        </p>
       </div>
     </section>
 
-    <section class="form-section fade-in">
+    <section class="form-section">
       <h2>Vote for Your Year 11 Superlatives!</h2>
       <div class="form-embed-container">
-        <iframe 
-          src="https://docs.google.com/forms/d/e/1FAIpQLSdZr8MhK3S_HK7NhEo8wYSjxMikraaC3J2jFBUQbjFKlWue4Q/viewform?embedded=true" 
-          frameborder="0" 
-          marginheight="0" 
+        <iframe
+          src="https://docs.google.com/forms/d/e/1FAIpQLSdZr8MhK3S_HK7NhEo8wYSjxMikraaC3J2jFBUQbjFKlWue4Q/viewform?embedded=true"
+          frameborder="0"
+          marginheight="0"
           marginwidth="0"
           allowfullscreen
           loading="lazy"
-          title="Year 11 Superlatives Google Form"></iframe>
+          title="Year 11 Superlatives Google Form"
+        ></iframe>
       </div>
     </section>
   </main>
@@ -47,7 +55,5 @@
       <p>With the help of Hala Suleiman - 11B</p>
     </div>
   </footer>
-
-  <script src="script.js"></script>
 </body>
 </html>
