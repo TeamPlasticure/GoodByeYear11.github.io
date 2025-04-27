@@ -4,15 +4,29 @@ const carouselData = [
     img: "images/image1.jpg",
     alt: "Head of Year",
     title: "Head of Year 11 Message",
-    message: "[Insert heartfelt message here]"
+    message: "This is the heartfelt message for Head of Year 11. You can make this as long as you want!"
   },
   {
     img: "images/image2.jpg",
     alt: "Head of Secondary",
     title: "Head of Secondary message",
-    message: "[Insert inspirational message here]"
+    message: "This is the inspirational message for Head of Secondary. It will be typed out when the card comes forward."
   }
 ];
+
+// Typing animation helper
+function typeText(element, text, speed = 18) {
+  element.textContent = "";
+  let i = 0;
+  function type() {
+    if (i <= text.length) {
+      element.textContent = text.slice(0, i);
+      i++;
+      setTimeout(type, speed);
+    }
+  }
+  type();
+}
 
 // Card stack carousel logic
 document.addEventListener("DOMContentLoaded", function() {
@@ -39,68 +53,63 @@ document.addEventListener("DOMContentLoaded", function() {
   const rightArrow = document.querySelector('.carousel-arrow.right');
   const indicators = document.querySelector('.carousel-indicators');
 
-  let current = 0;
+  let current = 1; // right card index (front)
   let animating = false;
 
   function renderStack(direction = 0) {
     stack.innerHTML = '';
 
-    // Indices for front and back cards
-    const frontIdx = current;
-    const backIdx = (current + 1) % carouselData.length;
+    // Indices for left and right cards
+    const leftIdx = (current - 1 + carouselData.length) % carouselData.length;
+    const rightIdx = current;
 
-    // Create both cards
-    const front = document.createElement('div');
-    front.className = 'carousel-card front';
-    front.innerHTML = `
-      <img src="${carouselData[frontIdx].img}" alt="${carouselData[frontIdx].alt}">
+    // Create left card (back)
+    const left = document.createElement('div');
+    left.className = 'carousel-card left';
+    left.innerHTML = `
+      <img src="${carouselData[leftIdx].img}" alt="${carouselData[leftIdx].alt}">
+      <div class="carousel-message"></div>
+    `;
+
+    // Create right card (front)
+    const right = document.createElement('div');
+    right.className = 'carousel-card right';
+    right.innerHTML = `
+      <img src="${carouselData[rightIdx].img}" alt="${carouselData[rightIdx].alt}">
       <div class="carousel-message">
-        <h2>${carouselData[frontIdx].title}</h2>
-        <p>${carouselData[frontIdx].message}</p>
+        <h2>${carouselData[rightIdx].title}</h2>
+        <p></p>
       </div>
     `;
 
-    const back = document.createElement('div');
-    back.className = 'carousel-card back';
-    back.innerHTML = `
-      <img src="${carouselData[backIdx].img}" alt="${carouselData[backIdx].alt}">
-      <div class="carousel-message">
-        <h2>${carouselData[backIdx].title}</h2>
-        <p>${carouselData[backIdx].message}</p>
-      </div>
-    `;
+    stack.appendChild(left);
+    stack.appendChild(right);
 
-    // Add to DOM
-    stack.appendChild(back);
-    stack.appendChild(front);
+    // Typing animation for the right card's message
+    setTimeout(() => {
+      const msg = right.querySelector('.carousel-message p');
+      typeText(msg, carouselData[rightIdx].message, 12);
+    }, 350);
+
     renderIndicators();
+    animating = false;
+  }
 
-    // Animate if needed
-    if (direction !== 0) {
-      // Animate front card to back, and back card to front
-      setTimeout(() => {
-        if (direction === 1) {
-          front.classList.add('animate-to-back');
-          back.classList.add('animate-to-front');
-        } else {
-          front.classList.add('animate-to-back');
-          back.classList.add('animate-to-front');
-        }
-      }, 20);
+  function animate(direction) {
+    if (animating) return;
+    animating = true;
+    const cards = stack.querySelectorAll('.carousel-card');
+    cards.forEach(card => card.classList.add('animating'));
 
-      // After animation, swap current and re-render
-      setTimeout(() => {
-        animating = false;
-        if (direction === 1) {
-          current = (current + 1) % carouselData.length;
-        } else {
-          current = (current - 1 + carouselData.length) % carouselData.length;
-        }
-        renderStack(0);
-      }, 700);
-    } else {
-      animating = false;
-    }
+    // Wait for half the animation, then change indices and re-render
+    setTimeout(() => {
+      if (direction === 1) {
+        current = (current + 1) % carouselData.length;
+      } else {
+        current = (current - 1 + carouselData.length) % carouselData.length;
+      }
+      renderStack(direction);
+    }, 350);
   }
 
   function renderIndicators() {
@@ -111,27 +120,16 @@ document.addEventListener("DOMContentLoaded", function() {
       dot.addEventListener('click', () => {
         if (animating || idx === current) return;
         animating = true;
-        // Figure out direction
-        let direction = (idx > current || (current === carouselData.length - 1 && idx === 0)) ? 1 : -1;
         current = idx;
-        renderStack(direction);
+        renderStack(1);
       });
       indicators.appendChild(dot);
     });
   }
 
-  leftArrow.addEventListener('click', () => {
-    if (animating) return;
-    animating = true;
-    renderStack(-1);
-  });
-
-  rightArrow.addEventListener('click', () => {
-    if (animating) return;
-    animating = true;
-    renderStack(1);
-  });
+  leftArrow.addEventListener('click', () => animate(-1));
+  rightArrow.addEventListener('click', () => animate(1));
 
   // Initial render
-  renderStack(0);
+  renderStack();
 });
