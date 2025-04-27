@@ -6,7 +6,7 @@
   <title>Goodbye, for now!</title>
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- Supabase JS SDK (correct CDN) -->
+  <!-- Supabase JS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
     const supabaseUrl = 'https://rawgjshiobdovsgxkzif.supabase.co';
@@ -40,17 +40,15 @@
       </div>
     </section>
 
-    <!-- Signature Wall Section -->
+    <!-- Signature Submission Section -->
     <section class="signature-section">
       <h2>Sign the Yearbook!</h2>
       <input id="sig-name" type="text" maxlength="30" placeholder="Your name (required)" autocomplete="off" />
-      <br>
-      <canvas id="sig-canvas" width="400" height="120"></canvas><br>
+      <br />
+      <canvas id="sig-canvas" width="400" height="120"></canvas><br />
       <button id="clear-btn">Clear</button>
       <button id="submit-btn">Submit Signature</button>
       <div id="sig-status"></div>
-      <h3>Year 11 Signatures</h3>
-      <div id="signature-gallery"></div>
     </section>
 
     <section class="form-section">
