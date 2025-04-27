@@ -40,15 +40,24 @@ main {
   min-height: 450px;
 }
 
-.carousel-stack {
-  width: 540px;
+.carousel-stack-area {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   min-height: 340px;
+  padding: 40px 0 30px 0;
+}
+
+.carousel-stack {
   position: relative;
-  margin-bottom: 1.5rem;
+  width: 540px;
+  min-height: 260px;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   height: auto;
+  transition: min-height 0.5s cubic-bezier(.7,.2,.2,1);
 }
 
 .carousel-card {
@@ -134,6 +143,14 @@ main {
 }
 .carousel-card.right .carousel-message {
   display: flex;
+}
+
+.carousel-controls-area {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 18px;
 }
 
 .carousel-controls {
@@ -256,17 +273,21 @@ footer .credits p {
   main {
     padding: 1rem 0.5rem 2rem 0.5rem;
   }
+  .carousel-stack-area {
+    min-height: 210px;
+    padding: 30px 0 20px 0;
+  }
   .carousel-stack {
     width: 98vw;
     min-width: 0;
     max-width: 98vw;
-    min-height: 210px;
+    min-height: 180px;
   }
   .carousel-card {
     width: 95vw;
     min-width: 0;
     max-width: 95vw;
-    min-height: 180px;
+    min-height: 100px;
   }
   .form-section {
     padding: 1.2rem 0.3rem;
@@ -283,11 +304,14 @@ footer .credits p {
 }
 
 @media (max-width: 500px) {
-  .carousel-stack {
+  .carousel-stack-area {
     min-height: 120px;
   }
-  .carousel-card {
+  .carousel-stack {
     min-height: 100px;
+  }
+  .carousel-card {
+    min-height: 80px;
   }
   .carousel-card img {
     height: 80px;
