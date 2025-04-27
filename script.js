@@ -1,37 +1,22 @@
-// Smooth animations setup
-gsap.registerPlugin(ScrollTrigger);
+// Simple fade-in on scroll for sections
+document.addEventListener("DOMContentLoaded", function() {
+  const faders = document.querySelectorAll('.fade-in');
+  const appearOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -50px 0px"
+  };
 
-// Header animation
-gsap.to("h1", {
-    y: 0,
-    opacity: 1,
-    duration: 1,
-    ease: "power4.out"
-});
-
-// Section animations
-gsap.utils.toArray(".animate-section").forEach(section => {
-    gsap.from(section, {
-        scrollTrigger: {
-            trigger: section,
-            start: "top center+=100"
-        },
-        opacity: 0,
-        y: 50,
-        duration: 1,
-        ease: "power4.out"
+  const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('visible');
+      entry.target.style.opacity = 1;
+      entry.target.style.transform = "none";
+      appearOnScroll.unobserve(entry.target);
     });
-});
+  }, appearOptions);
 
-// Card hover effects
-document.querySelectorAll('.head-card').forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-        const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-        const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-        card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-    });
-
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = 'rotateY(0) rotateX(0)';
-    });
+  faders.forEach(fader => {
+    appearOnScroll.observe(fader);
+  });
 });
