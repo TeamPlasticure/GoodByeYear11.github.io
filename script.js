@@ -21,9 +21,7 @@ function typeText(element, text, speed = 14, done) {
   function type() {
     if (i <= text.length) {
       element.textContent = text.slice(0, i);
-      // Grow the message container as text appears
       element.parentElement.style.minHeight = (element.scrollHeight + 30) + "px";
-      // Also grow the card itself
       element.closest('.carousel-card').style.minHeight = (element.closest('.carousel-card').scrollHeight + 10) + "px";
       i++;
       setTimeout(type, speed);
@@ -34,7 +32,7 @@ function typeText(element, text, speed = 14, done) {
   type();
 }
 
-// Card stack carousel logic
+// Carousel logic
 document.addEventListener("DOMContentLoaded", function() {
   // Fade-in on scroll
   const faders = document.querySelectorAll('.fade-in');
@@ -53,34 +51,33 @@ document.addEventListener("DOMContentLoaded", function() {
     appearOnScroll.observe(fader);
   });
 
-  // Card stack carousel
-  const stack = document.querySelector('.carousel-stack');
+  // Carousel
+  const row = document.querySelector('.carousel-row');
   const leftArrow = document.querySelector('.carousel-arrow.left');
   const rightArrow = document.querySelector('.carousel-arrow.right');
   const indicators = document.querySelector('.carousel-indicators');
-  const stackArea = document.querySelector('.carousel-stack-area');
 
-  let current = 1; // right card index (front)
+  let front = 1; // right card index (front)
   let animating = false;
 
-  function renderStack(direction = 0) {
-    stack.innerHTML = '';
+  function renderRow(direction = 0) {
+    row.innerHTML = '';
 
     // Indices for left and right cards
-    const leftIdx = (current - 1 + carouselData.length) % carouselData.length;
-    const rightIdx = current;
+    const leftIdx = (front - 1 + carouselData.length) % carouselData.length;
+    const rightIdx = front;
 
-    // Create left card (back)
+    // Left card (back)
     const left = document.createElement('div');
-    left.className = 'carousel-card left';
+    left.className = 'carousel-card back';
     left.innerHTML = `
       <img src="${carouselData[leftIdx].img}" alt="${carouselData[leftIdx].alt}">
       <div class="carousel-message"></div>
     `;
 
-    // Create right card (front)
+    // Right card (front)
     const right = document.createElement('div');
-    right.className = 'carousel-card right';
+    right.className = 'carousel-card front';
     right.innerHTML = `
       <img src="${carouselData[rightIdx].img}" alt="${carouselData[rightIdx].alt}">
       <div class="carousel-message">
@@ -89,27 +86,26 @@ document.addEventListener("DOMContentLoaded", function() {
       </div>
     `;
 
-    stack.appendChild(left);
-    stack.appendChild(right);
+    // Animate if needed
+    if (direction === 1) {
+      left.classList.add('fade-out');
+      right.classList.add('bounce-in');
+    } else if (direction === -1) {
+      right.classList.add('fade-out');
+      left.classList.add('bounce-in');
+    }
+
+    row.appendChild(left);
+    row.appendChild(right);
 
     // Typing animation for the right card's message
     setTimeout(() => {
       const msg = right.querySelector('.carousel-message p');
       typeText(msg, carouselData[rightIdx].message, 13, () => {
-        // After typing, ensure the card and stack area height fits the message
         right.style.minHeight = (right.scrollHeight + 10) + "px";
-        stack.style.minHeight = (right.scrollHeight + 10) + "px";
-        stackArea.style.minHeight = (right.scrollHeight + 80) + "px";
+        row.style.minHeight = (right.scrollHeight + 10) + "px";
       });
     }, 350);
-
-    // Animate cards
-    left.classList.add('animating');
-    right.classList.add('animating');
-    setTimeout(() => {
-      left.classList.remove('animating');
-      right.classList.remove('animating');
-    }, 700);
 
     renderIndicators();
     animating = false;
@@ -118,30 +114,26 @@ document.addEventListener("DOMContentLoaded", function() {
   function animate(direction) {
     if (animating) return;
     animating = true;
-    const cards = stack.querySelectorAll('.carousel-card');
-    cards.forEach(card => card.classList.add('animating'));
-
-    // Wait for half the animation, then change indices and re-render
     setTimeout(() => {
       if (direction === 1) {
-        current = (current + 1) % carouselData.length;
+        front = (front + 1) % carouselData.length;
       } else {
-        current = (current - 1 + carouselData.length) % carouselData.length;
+        front = (front - 1 + carouselData.length) % carouselData.length;
       }
-      renderStack(direction);
-    }, 350);
+      renderRow(direction);
+    }, 400);
   }
 
   function renderIndicators() {
     indicators.innerHTML = '';
     carouselData.forEach((_, idx) => {
       const dot = document.createElement('span');
-      dot.className = 'carousel-dot' + (idx === current ? ' active' : '');
+      dot.className = 'carousel-dot' + (idx === front ? ' active' : '');
       dot.addEventListener('click', () => {
-        if (animating || idx === current) return;
+        if (animating || idx === front) return;
         animating = true;
-        current = idx;
-        renderStack(1);
+        front = idx;
+        renderRow(1);
       });
       indicators.appendChild(dot);
     });
@@ -151,5 +143,5 @@ document.addEventListener("DOMContentLoaded", function() {
   rightArrow.addEventListener('click', () => animate(1));
 
   // Initial render
-  renderStack();
+  renderRow();
 });
