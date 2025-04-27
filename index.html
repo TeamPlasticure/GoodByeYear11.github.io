@@ -5,6 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Goodbye, for now!</title>
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- Firebase App (the core Firebase SDK) -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+  <script>
+    // Your Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyA7I65q-34LM7cP_ZVq7ZuBHSjb9NGqKCU",
+      authDomain: "year-11-signs.firebaseapp.com",
+      projectId: "year-11-signs",
+      storageBucket: "year-11-signs.appspot.com",
+      messagingSenderId: "564458718415",
+      appId: "1:564458718415:web:97864e4b95f939f06c63ba",
+      measurementId: "G-0PBWR6ZMKZ"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const storage = firebase.storage();
+    const db = firebase.firestore();
+  </script>
 </head>
 <body>
   <header>
@@ -32,6 +52,19 @@
       </div>
     </section>
 
+    <!-- Signature Wall Section -->
+    <section class="signature-section">
+      <h2>Sign the Yearbook!</h2>
+      <input id="sig-name" type="text" maxlength="30" placeholder="Your name (required)" autocomplete="off" />
+      <br>
+      <canvas id="sig-canvas" width="400" height="120"></canvas><br>
+      <button id="clear-btn">Clear</button>
+      <button id="submit-btn">Submit Signature</button>
+      <div id="sig-status"></div>
+      <h3>Year 11 Signatures</h3>
+      <div id="signature-gallery"></div>
+    </section>
+
     <section class="form-section">
       <h2>Vote for Your Year 11 Superlatives!</h2>
       <div class="form-embed-container">
@@ -55,5 +88,8 @@
       <p>With the help of Hala Suleiman - 11B</p>
     </div>
   </footer>
+
+  <!-- Your main JS file -->
+  <script src="script.js"></script>
 </body>
 </html>
