@@ -45,20 +45,21 @@ document.addEventListener("DOMContentLoaded", function() {
   function renderStack(direction = 0) {
     stack.innerHTML = '';
 
-    // Front card
+    // Indices for front and back cards
+    const frontIdx = current;
+    const backIdx = (current + 1) % carouselData.length;
+
+    // Create both cards
     const front = document.createElement('div');
     front.className = 'carousel-card front';
     front.innerHTML = `
-      <img src="${carouselData[current].img}" alt="${carouselData[current].alt}">
+      <img src="${carouselData[frontIdx].img}" alt="${carouselData[frontIdx].alt}">
       <div class="carousel-message">
-        <h2>${carouselData[current].title}</h2>
-        <p>${carouselData[current].message}</p>
+        <h2>${carouselData[frontIdx].title}</h2>
+        <p>${carouselData[frontIdx].message}</p>
       </div>
     `;
-    stack.appendChild(front);
 
-    // Back card (the other one)
-    const backIdx = (current + 1) % carouselData.length;
     const back = document.createElement('div');
     back.className = 'carousel-card back';
     back.innerHTML = `
@@ -68,25 +69,38 @@ document.addEventListener("DOMContentLoaded", function() {
         <p>${carouselData[backIdx].message}</p>
       </div>
     `;
-    stack.appendChild(back);
 
-    // Animation: if direction, animate cards
-    if (direction !== 0) {
-      // Animate out
-      const movingOut = direction === 1 ? front : back;
-      movingOut.style.transition = 'none';
-      movingOut.style.transform = direction === 1
-        ? 'translate(-50%, -50%) scale(1) rotateY(0deg)'
-        : 'translate(-50%, -50%) scale(0.82) rotateY(-30deg)';
-      setTimeout(() => {
-        movingOut.style.transition = '';
-        movingOut.style.transform = direction === 1
-          ? 'translate(-50%, -50%) scale(0.82) rotateY(-30deg)'
-          : 'translate(-50%, -50%) scale(1) rotateY(0deg)';
-      }, 30);
-    }
-    animating = false;
+    // Add to DOM
+    stack.appendChild(back);
+    stack.appendChild(front);
     renderIndicators();
+
+    // Animate if needed
+    if (direction !== 0) {
+      // Animate front card to back, and back card to front
+      setTimeout(() => {
+        if (direction === 1) {
+          front.classList.add('animate-to-back');
+          back.classList.add('animate-to-front');
+        } else {
+          front.classList.add('animate-to-back');
+          back.classList.add('animate-to-front');
+        }
+      }, 20);
+
+      // After animation, swap current and re-render
+      setTimeout(() => {
+        animating = false;
+        if (direction === 1) {
+          current = (current + 1) % carouselData.length;
+        } else {
+          current = (current - 1 + carouselData.length) % carouselData.length;
+        }
+        renderStack(0);
+      }, 700);
+    } else {
+      animating = false;
+    }
   }
 
   function renderIndicators() {
@@ -97,8 +111,10 @@ document.addEventListener("DOMContentLoaded", function() {
       dot.addEventListener('click', () => {
         if (animating || idx === current) return;
         animating = true;
+        // Figure out direction
+        let direction = (idx > current || (current === carouselData.length - 1 && idx === 0)) ? 1 : -1;
         current = idx;
-        renderStack(1);
+        renderStack(direction);
       });
       indicators.appendChild(dot);
     });
@@ -107,17 +123,15 @@ document.addEventListener("DOMContentLoaded", function() {
   leftArrow.addEventListener('click', () => {
     if (animating) return;
     animating = true;
-    current = (current - 1 + carouselData.length) % carouselData.length;
     renderStack(-1);
   });
 
   rightArrow.addEventListener('click', () => {
     if (animating) return;
     animating = true;
-    current = (current + 1) % carouselData.length;
     renderStack(1);
   });
 
   // Initial render
-  renderStack();
+  renderStack(0);
 });
