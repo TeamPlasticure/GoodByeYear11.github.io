@@ -22,22 +22,23 @@ header {
 
 h1 {
   margin: 0;
-  font-size: 2.5rem;
+  font-size: 2.1rem;
   letter-spacing: 1px;
 }
 
 main {
-  max-width: 900px;
+  max-width: 100%;
   margin: 0 auto;
-  padding: 2rem 1rem 3rem 1rem;
+  padding: 1.2rem 0.5rem 2rem 0.5rem;
 }
 
 .messages-section {
   display: flex;
-  gap: 2rem;
+  flex-direction: column;
+  gap: 1.5rem;
   justify-content: center;
-  margin-bottom: 3rem;
-  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  align-items: center;
 }
 
 .message-card {
@@ -54,7 +55,7 @@ main {
 
 .message-card img {
   width: 100%;
-  height: 220px;
+  height: 160px;
   object-fit: contain;
   border-radius: 20px 20px 0 0;
   border-bottom: 4px solid var(--blue);
@@ -64,14 +65,14 @@ main {
 
 .message-card h2 {
   color: var(--red);
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   margin: 0 1rem 0.5rem 1rem;
   text-align: center;
 }
 
 .message-card p {
   color: var(--blue);
-  font-size: 1.1rem;
+  font-size: 1rem;
   margin: 0 1.5rem;
   text-align: center;
 }
@@ -79,8 +80,8 @@ main {
 .form-section {
   background: var(--blue);
   border-radius: 18px;
-  padding: 2rem 1rem;
-  margin-bottom: 2rem;
+  padding: 1.5rem 0.5rem;
+  margin-bottom: 1.5rem;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
   color: var(--white);
   text-align: center;
@@ -88,69 +89,57 @@ main {
 
 .form-section h2 {
   color: var(--white);
-  margin-bottom: 1.5rem;
-  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
 }
 
 .form-embed-container {
   background: var(--white);
   border-radius: 16px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  padding: 1rem;
+  padding: 0.5rem;
   margin: 0 auto;
-  max-width: 700px;
+  max-width: 100%;
 }
 
 iframe {
   width: 100%;
-  min-width: 280px;
-  height: 1800px;
+  min-width: 200px;
+  height: 900px;
   border: none;
   border-radius: 12px;
   background: var(--white);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* Signature and Countdown Side-by-Side */
+/* Signature and Countdown Side-by-Side on desktop, stacked on mobile */
 .signature-countdown-container {
   display: flex;
-  gap: 2rem;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin: 3rem 0 2rem 0;
-}
-
-/* Signature Section */
-.signature-section {
-  flex: 1 1 400px;
-  background: #f6f6f6;
-  padding: 2rem 1rem 2.5rem 1rem;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
-  text-align: center;
-  min-width: 320px;
-}
-
-/* Countdown Section */
-.countdown-section {
-  flex: 1 1 280px;
-  background: #f6f6f6;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
-  text-align: center;
-  padding: 2rem 1rem 2.5rem 1rem;
-  min-width: 280px;
-  display: flex;
   flex-direction: column;
+  gap: 1.5rem;
   justify-content: center;
+  align-items: stretch;
+  margin: 2rem 0 1.5rem 0;
+}
+
+.signature-section,
+.countdown-section {
+  background: #f6f6f6;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+  text-align: center;
+  padding: 1.5rem 0.5rem 2rem 0.5rem;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 480px;
 }
 
 #countdown-timer {
-  font-size: 2.1rem;
+  font-size: 1.6rem;
   font-weight: bold;
   color: #b2151d;
   margin-top: 1.2rem;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
 }
 
 /* Signature input and button styles */
@@ -158,9 +147,10 @@ iframe {
   padding: 0.5em 1em;
   border: 1.5px solid #bbb;
   border-radius: 6px;
-  font-size: 1.1em;
+  font-size: 1em;
   margin-bottom: 0.7em;
-  width: 250px;
+  width: 90%;
+  max-width: 250px;
   box-sizing: border-box;
 }
 
@@ -176,6 +166,9 @@ iframe {
   margin-bottom: 0.5rem;
   touch-action: none;
   box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  width: 100%;
+  max-width: 400px;
+  height: 120px;
 }
 
 #clear-btn, #submit-btn {
@@ -185,7 +178,7 @@ iframe {
   border-radius: 6px;
   padding: 0.5em 1.2em;
   margin: 0.3em 0.5em;
-  font-size: 1.1em;
+  font-size: 1em;
   cursor: pointer;
   transition: background 0.2s;
   box-shadow: 0 1px 5px rgba(0,0,0,0.05);
@@ -197,7 +190,7 @@ iframe {
 
 #sig-status {
   margin: 0.7em 0 1.2em 0;
-  font-size: 1.1em;
+  font-size: 1em;
   min-height: 1.4em;
   color: #008800;
 }
@@ -225,29 +218,44 @@ footer .credits p {
   margin: 0.2em 0;
 }
 
-/* Responsive: stack on small screens */
-@media (max-width: 900px) {
+/* Responsive: side-by-side above 800px */
+@media (min-width: 800px) {
+  .signature-countdown-container {
+    flex-direction: row;
+    gap: 2rem;
+    align-items: flex-start;
+  }
+  .signature-section,
+  .countdown-section {
+    max-width: 420px;
+    width: 100%;
+  }
+  .signature-section {
+    margin-right: 0;
+  }
+}
+
+/* Responsive: message cards side by side at 700px+ */
+@media (min-width: 700px) {
   .messages-section {
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    gap: 2rem;
   }
   .message-card {
-    max-width: 90vw;
+    max-width: 420px;
   }
 }
 
-@media (max-width: 720px) {
-  .signature-countdown-container {
-    flex-direction: column;
-    align-items: center;
+/* Responsive: further tweaks for very small screens */
+@media (max-width: 400px) {
+  .signature-section,
+  .countdown-section {
+    padding: 1rem 0.1rem 1.2rem 0.1rem;
   }
-  .signature-section, .countdown-section {
-    min-width: 90vw;
+  #sig-canvas {
+    height: 80px;
   }
-}
-
-@media (max-width: 500px) {
-  .message-card img {
-    height: 150px;
+  #countdown-timer {
+    font-size: 1.1rem;
   }
 }
