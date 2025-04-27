@@ -23,6 +23,8 @@ function typeText(element, text, speed = 14, done) {
       element.textContent = text.slice(0, i);
       // Grow the message container as text appears
       element.parentElement.style.minHeight = (element.scrollHeight + 30) + "px";
+      // Also grow the card itself
+      element.closest('.carousel-card').style.minHeight = (element.closest('.carousel-card').scrollHeight + 10) + "px";
       i++;
       setTimeout(type, speed);
     } else if (done) {
@@ -56,6 +58,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const leftArrow = document.querySelector('.carousel-arrow.left');
   const rightArrow = document.querySelector('.carousel-arrow.right');
   const indicators = document.querySelector('.carousel-indicators');
+  const stackArea = document.querySelector('.carousel-stack-area');
 
   let current = 1; // right card index (front)
   let animating = false;
@@ -93,8 +96,10 @@ document.addEventListener("DOMContentLoaded", function() {
     setTimeout(() => {
       const msg = right.querySelector('.carousel-message p');
       typeText(msg, carouselData[rightIdx].message, 13, () => {
-        // After typing, ensure the card height fits the message
+        // After typing, ensure the card and stack area height fits the message
         right.style.minHeight = (right.scrollHeight + 10) + "px";
+        stack.style.minHeight = (right.scrollHeight + 10) + "px";
+        stackArea.style.minHeight = (right.scrollHeight + 80) + "px";
       });
     }, 350);
 
