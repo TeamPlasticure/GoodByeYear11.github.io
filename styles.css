@@ -76,8 +76,8 @@ main {
   flex-direction: column;
   gap: 1.5rem;
   justify-content: center;
+  align-items: stretch;
   margin-bottom: 2rem;
-  align-items: center;
 }
 
 .message-card {
@@ -86,25 +86,33 @@ main {
   box-shadow: 0 8px 36px rgba(0, 0, 0, 0.13);
   width: 100%;
   max-width: 420px;
+  min-height: 200px;
   padding: 1.5rem 1rem 1rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.message-card h2 {
-  color: var(--red);
-  font-size: 1.2rem;
-  margin: 0 1rem 0.5rem 1rem;
+  justify-content: center; /* vertical centering */
+  box-sizing: border-box;
+  margin: 0 auto;
   text-align: center;
 }
 
-.message-card p {
-  color: var(--blue);
-  font-size: 1rem;
-  margin: 0 1.5rem;
-  text-align: center;
+/* Side by side and equal height on desktop */
+@media (min-width: 900px) {
+  .messages-section {
+    flex-direction: row;
+    gap: 2rem;
+    align-items: stretch;
+  }
+  .message-card {
+    max-width: 320px;
+    flex: 1 1 0;
+    margin: 0;
+    min-height: 220px;
+    height: 100%;
+  }
 }
+
 
 .form-section {
   background: var(--blue);
