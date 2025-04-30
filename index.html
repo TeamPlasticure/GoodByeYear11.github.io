@@ -2,47 +2,98 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Maha's Sparkly World</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Goodbye, for now!</title>
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- Supabase JS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    const supabaseUrl = 'https://rawgjshiobdovsgxkzif.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJhd2dqc2hpb2Jkb3ZzZ3hremlmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU3NjkyMDIsImV4cCI6MjA2MTM0NTIwMn0.TKZ1iNSrGh8SyqYgu_6TX6rlrOX01S-Jl332aZyx6BY';
+    window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
+  </script>
 </head>
 <body>
-  <canvas id="sparkle-bg"></canvas>
-  <div class="shimmer-bg"></div>
-  <div class="container">
-    <div class="image-switcher">
-      <div class="image-frame">
-        <img id="img1"
-          src="https://www.billboard.com/wp-content/uploads/2025/01/taylor-swift-grammys-red-carpet-2024-billboard-4-1548.jpg?w=942&h=623&crop=1"
-          alt="Taylor Swift"
-          class="profile-img show"
-        />
-        <img id="img2"
-          src="https://preview.redd.it/hg4t95npwz1c1.jpg?width=640&crop=smart&auto=webp&s=bfd0187fafcda61819187dad24aad5fcb3366105"
-          alt="Taylor Swift 2"
-          class="profile-img"
-        />
-        <img id="img3"
-          src="./MahaOmg.png"
-          alt="Maha Omg Picture"
-          class="profile-img"
-        />
-      </div>
-      <div class="img-btns">
-        <button id="img1-btn" class="img-switch-btn active" aria-label="Show first image"></button>
-        <button id="img2-btn" class="img-switch-btn" aria-label="Show second image"></button>
-        <button id="img3-btn" class="img-switch-btn" aria-label="Show third image"></button>
-      </div>
-    </div>
-    <button id="type-btn" class="type-btn">Show Message</button>
-    <h1 class="glow">Welcome,</h1>
-    <h2 class="subheading">To Maha's world.</h2>
-    <div class="typing-container" aria-live="polite" aria-atomic="true">
-      <span class="typing-text" id="typingText"></span><span class="cursor" id="cursor">|</span>
-    </div>
-    <button id="theme-btn" class="theme-btn">Change Theme</button>
+  <!-- Passive bubbles background -->
+  <div class="bubbles-bg">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
   </div>
-  <button id="love-btn" class="love-btn">I ❤️ Taylor</button>
-  <div id="confetti-container"></div>
+  <header>
+    <h1>Year 11 Farewell 2025</h1>
+  </header>
+
+  <main>
+    <section class="messages-section">
+      <div class="message-card">
+        <h2>Head of Year 11 Message</h2>
+        <p>
+          Congratulations on reaching this milestone! Your dedication and resilience have brought you here, and I am incredibly proud of each and every one of you. Remember, this is just the beginning of your amazing journey. Wishing you all the best for your exams and your future adventures!
+        </p>
+      </div>
+      <div class="message-card">
+        <h2>Head of Secondary Message</h2>
+        <p>
+          It has been a pleasure watching you grow into confident, capable young adults. As you move forward, embrace every opportunity and never stop striving for excellence. Good luck in your exams and in all that you do beyond Year 11!
+        </p>
+      </div>
+      <div class="message-card">
+        <h2>Deputy Head of Secondary</h2>
+        <p>
+          Hi Everyone, wishing you all the best for the future and your upcoming GCSE exams.
+        </p>
+      </div>
+    </section>
+
+    <!-- Signature and Countdown Container -->
+    <section class="signature-countdown-container">
+      <!-- Signature Submission Section -->
+      <div class="signature-section">
+        <h2>Sign the Yearbook!</h2>
+        <input id="sig-name" type="text" maxlength="30" placeholder="Your name (required)" autocomplete="off" />
+        <br />
+        <canvas id="sig-canvas" width="400" height="120"></canvas><br />
+        <button id="clear-btn">Clear</button>
+        <button id="submit-btn">Submit Signature</button>
+        <div id="sig-status"></div>
+      </div>
+
+      <!-- Countdown Timer Section -->
+      <div class="countdown-section">
+        <h2>Countdown to Graduation!</h2>
+        <div id="countdown-timer"></div>
+      </div>
+    </section>
+
+    <section class="form-section">
+      <h2>Vote for Your Year 11 Superlatives!</h2>
+      <div class="form-embed-container">
+        <iframe
+          src="https://docs.google.com/forms/d/e/1FAIpQLSdZr8MhK3S_HK7NhEo8wYSjxMikraaC3J2jFBUQbjFKlWue4Q/viewform?embedded=true"
+          frameborder="0"
+          marginheight="0"
+          marginwidth="0"
+          allowfullscreen
+          loading="lazy"
+          title="Year 11 Superlatives Google Form"
+        ></iframe>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Omar Al Mouaqet - 11B
+  </footer>
+
   <script src="script.js"></script>
 </body>
 </html>
